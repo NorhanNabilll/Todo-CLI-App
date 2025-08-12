@@ -2,11 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Converters;
 
 namespace Todo_CLI_App.Models
 {
-    internal class TodoItem
+    // Represents a single to-do item with its properties and state
+    public class TodoItem
     {
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public bool IsCompleted { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Priority Priority { get; set; }
+
+        public List<string> Tags { get; set; } = new List<string>();
+
+    }
+
+    // Priority levels for todo items
+    public enum Priority
+    {
+        Low,
+        Medium,
+        High
     }
 }
