@@ -21,6 +21,17 @@ namespace Todo_CLI_App.Models
 
         public List<string> Tags { get; set; } = new List<string>();
 
+
+        // Constructor for creating new todo items
+        public TodoItem(string description, Priority priority = Priority.Medium)
+        {
+            Description = description;
+            Priority = priority;
+            CreatedAt = DateTime.UtcNow;
+            IsCompleted = false;
+            Tags = new List<string>();
+        }
+
     }
 
     // Priority levels for todo items
