@@ -37,6 +37,7 @@ namespace Todo_CLI_App.CLI
                     "done" => await HandleDoneCommand(args),
                     "delete" => await HandleDeleteCommand(args),
                     "help" => HandleHelpCommand(),
+                    "stats" => HandleStatsCommand(),
                     _ => HandleInvalidCommand(command)
 
                 };
@@ -227,5 +228,16 @@ namespace Todo_CLI_App.CLI
         }
 
 
+        // Handles the 'stats' command to show statistics
+        public int HandleStatsCommand()
+        {
+            var stats = _todoManager.GetStatistics();
+            Console.WriteLine("Task Statistics:");
+            Console.WriteLine($"  Total: {stats.Total}");
+            Console.WriteLine($"  Completed: {stats.Completed}");
+            Console.WriteLine($"  Pending: {stats.Pending}");
+            Console.WriteLine($"  Completion Rate: {stats.CompletionRate}%");
+            return 0;
+        }
     }
 }
