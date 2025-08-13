@@ -36,6 +36,7 @@ namespace Todo_CLI_App.CLI
                     "list" => HandleListCommand(args),
                     "done" => await HandleDoneCommand(args),
                     "delete" => await HandleDeleteCommand(args),
+                    "help" => HandleHelpCommand(),
                     _ => HandleInvalidCommand(command)
 
                 };
@@ -195,8 +196,34 @@ namespace Todo_CLI_App.CLI
         private int HandleInvalidCommand(string command)
         {
             Console.WriteLine($"Error: Unknown command '{command}'");
+            ShowHelp();
             return 1;
         }
+        private int HandleHelpCommand()
+        {
+            ShowHelp();
+            return 0;
+        }
 
+        public void ShowHelp()
+        {
+            Console.WriteLine("Todo App - Command Line Task Manager");
+            Console.WriteLine();
+            Console.WriteLine("Usage:");
+            Console.WriteLine("  add \"Task description\" [--priority high|medium|low] [--tags tag1,tag2]");
+            Console.WriteLine("  list [--pending|--completed] [--tag <tag_name>]");
+            Console.WriteLine("  done <task_id>");
+            Console.WriteLine("  delete <task_id>");
+            Console.WriteLine("  help");
+            Console.WriteLine();
+            Console.WriteLine("Examples:");
+            Console.WriteLine("  add \"Buy milk\"");
+            Console.WriteLine("  add \"Finish project\" --priority high --tags work,urgent");
+            Console.WriteLine("  list");
+            Console.WriteLine("  list --pending");
+            Console.WriteLine("  list --tag work");
+            Console.WriteLine("  done 2");
+            Console.WriteLine("  delete 3");
+        }
     }
 }
