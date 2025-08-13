@@ -35,6 +35,7 @@ namespace Todo_CLI_App.CLI
                     "add" => await HandleAddCommand(args),
                     "list" => HandleListCommand(args),
                     "done" => await HandleDoneCommand(args),
+                    "delete" => await HandleDeleteCommand(args),
                     _ => HandleInvalidCommand(command)
 
                 };
@@ -162,6 +163,34 @@ namespace Todo_CLI_App.CLI
             }
         }
 
+        // Handles the 'delete' command
+        public async Task<int> HandleDeleteCommand(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Error: Task ID is required");
+                Console.WriteLine("Usage: delete <task_id>");
+                return 1;
+            }
+
+            if (!int.TryParse(args[1], out int id))
+            {
+                Console.WriteLine("Error: Invalid task ID");
+                return 1;
+            }
+
+            var success = await _todoManager.DeleteAsync(id);
+            if (success)
+            {
+                Console.WriteLine($"Task #{id} deleted");
+                return 0;
+            }
+            else
+            {
+                Console.WriteLine($"Error: Task #{id} not found");
+                return 1;
+            }
+        }
 
         private int HandleInvalidCommand(string command)
         {
