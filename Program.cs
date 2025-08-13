@@ -11,14 +11,14 @@ class Program
         try
         {
             // Initialize dependencies with dependency injection pattern
-            var persistenceService = new JsonTaskStorage("tasks.json");
-            var todoManager = new TodoManager(persistenceService);
+            var storageService = new JsonTaskStorage("tasks.json");
+            var todoManager = new TodoManager(storageService);
             var commandHandler = new CommandLineHandler(todoManager);
 
             // Initialize the todo manager (loads existing tasks)
             await todoManager.InitializeAsync();
 
-            // Process the command and return appropriate exit code
+            // Process the command 
             return await commandHandler.HandleCommandAsync(args);
         }
         catch (Exception ex)
