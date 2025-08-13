@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;              // <-- ADD THIS
+using Newtonsoft.Json.Converters;   // <-- Keep this
 
 namespace Todo_CLI_App.Models
 {
@@ -21,7 +21,6 @@ namespace Todo_CLI_App.Models
 
         public List<string> Tags { get; set; } = new List<string>();
 
-
         // Constructor for creating new todo items
         public TodoItem(string description, Priority priority = Priority.Medium)
         {
@@ -32,6 +31,10 @@ namespace Todo_CLI_App.Models
             Tags = new List<string>();
         }
 
+        public TodoItem()
+        {
+            Tags = new List<string>();
+        }
     }
 
     // Priority levels for todo items
