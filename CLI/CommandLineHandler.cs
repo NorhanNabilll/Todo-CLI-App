@@ -215,6 +215,7 @@ namespace Todo_CLI_App.CLI
             Console.WriteLine("  list [--pending|--completed] [--tag <tag_name>]");
             Console.WriteLine("  done <task_id>");
             Console.WriteLine("  delete <task_id>");
+            Console.WriteLine("  stats");
             Console.WriteLine("  help");
             Console.WriteLine();
             Console.WriteLine("Examples:");
@@ -225,6 +226,7 @@ namespace Todo_CLI_App.CLI
             Console.WriteLine("  list --tag work");
             Console.WriteLine("  done 2");
             Console.WriteLine("  delete 3");
+            Console.WriteLine("  stats");
         }
 
 
