@@ -113,5 +113,11 @@ namespace Todo_CLI_App.Services
             return true;
         }
 
+        // Gets statistics about all todo items
+        public TodoStatistics GetStatistics()
+        {
+            return TodoStatistics.FromTodoItems(_items);
+        }
+
     }
 }
