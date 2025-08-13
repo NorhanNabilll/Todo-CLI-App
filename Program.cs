@@ -19,7 +19,7 @@ class Program
             await todoManager.InitializeAsync();
 
             // Process the command and return appropriate exit code
-            return await commandHandler.HandleAddCommand(args);
+            return await commandHandler.HandleCommandAsync(args);
         }
         catch (Exception ex)
         {

@@ -34,6 +34,7 @@ namespace Todo_CLI_App.CLI
                 {
                     "add" => await HandleAddCommand(args),
                     "list" => HandleListCommand(args),
+                    _ => HandleInvalidCommand(command)
 
                 };
             }
@@ -128,7 +129,11 @@ namespace Todo_CLI_App.CLI
 
             return 0;
         }
-
+        private int HandleInvalidCommand(string command)
+        {
+            Console.WriteLine($"Error: Unknown command '{command}'");
+            return 1;
+        }
 
     }
 }
