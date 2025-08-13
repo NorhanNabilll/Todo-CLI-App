@@ -60,9 +60,6 @@ cd Todo_CLI_App
 # Build the project
 dotnet build
 
-# Run tests (optional)
-dotnet test
-```
 
 ### Running the Application
 ```bash
