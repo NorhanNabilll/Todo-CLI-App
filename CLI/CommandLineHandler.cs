@@ -19,7 +19,7 @@ namespace Todo_CLI_App.CLI
 
 
         // Handles the 'add' command with priority and tags support
-        private async Task<int> HandleAddCommand(string[] args)
+        public async Task<int> HandleAddCommand(string[] args)
         {
             if (args.Length < 2)
             {
