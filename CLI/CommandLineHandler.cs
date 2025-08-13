@@ -16,7 +16,7 @@ namespace Todo_CLI_App.CLI
         {
             _todoManager = todoManager;
         }
- 
+
         // Processes command line arguments and executes actions
         public async Task<int> HandleCommandAsync(string[] args)
         {
@@ -24,7 +24,7 @@ namespace Todo_CLI_App.CLI
             {
                 if (args.Length == 0)
                 {
-                    
+                    ShowHelp();
                     return 0;
                 }
 
@@ -72,12 +72,33 @@ namespace Todo_CLI_App.CLI
                     {
                         priority = parsedPriority;
                     }
+                    //  validation for invalid priority values
+                    else
+                    {
+                        Console.WriteLine($"Error: Invalid priority '{args[i + 1]}'. Valid options: high, medium, low");
+                        Console.WriteLine("Usage: add \"Task description\" [--priority high|medium|low] [--tags tag1,tag2]");
+                        return 1;
+                    }
                     i++; // skip priority value
                 }
                 else if (args[i] == "--tags" && i + 1 < args.Length)
                 {
                     tags = args[i + 1].Split(',').Select(t => t.Trim()).Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
                     i++; // skip tags value
+                }
+                //  Handle unknown options starting with --
+                else if (args[i].StartsWith("--"))
+                {
+                    Console.WriteLine($"Error: Unknown option '{args[i]}' for add command");
+                    Console.WriteLine("Usage: add \"Task description\" [--priority high|medium|low] [--tags tag1,tag2]");
+                    return 1;
+                }
+                //  Handle unexpected arguments that don't start with --
+                else
+                {
+                    Console.WriteLine($"Error: Unexpected argument '{args[i]}'");
+                    Console.WriteLine("Usage: add \"Task description\" [--priority high|medium|low] [--tags tag1,tag2]");
+                    return 1;
                 }
             }
 
@@ -108,6 +129,20 @@ namespace Todo_CLI_App.CLI
                 {
                     tagFilter = args[i + 1];
                     i++; // Skip the next argument
+                }
+                // Handle unknown options starting with --
+                else if (args[i].StartsWith("--"))
+                {
+                    Console.WriteLine($"Error: Unknown option '{args[i]}' for list command");
+                    Console.WriteLine("Usage: list [--pending|--completed] [--tag <tag_name>]");
+                    return 1;
+                }
+                // Handle unexpected arguments that don't start with --
+                else
+                {
+                    Console.WriteLine($"Error: Unexpected argument '{args[i]}'");
+                    Console.WriteLine("Usage: list [--pending|--completed] [--tag <tag_name>]");
+                    return 1;
                 }
             }
 
@@ -149,6 +184,15 @@ namespace Todo_CLI_App.CLI
             if (!int.TryParse(args[1], out int id))
             {
                 Console.WriteLine("Error: Invalid task ID");
+                Console.WriteLine("Usage: done <task_id>");
+                return 1;
+            }
+
+            // Check for unexpected additional arguments
+            if (args.Length > 2)
+            {
+                Console.WriteLine($"Error: Unexpected argument '{args[2]}'. The done command only accepts a task ID");
+                Console.WriteLine("Usage: done <task_id>");
                 return 1;
             }
 
@@ -178,6 +222,15 @@ namespace Todo_CLI_App.CLI
             if (!int.TryParse(args[1], out int id))
             {
                 Console.WriteLine("Error: Invalid task ID");
+                Console.WriteLine("Usage: delete <task_id>");
+                return 1;
+            }
+
+            // Check for unexpected additional arguments
+            if (args.Length > 2)
+            {
+                Console.WriteLine($"Error: Unexpected argument '{args[2]}'. The delete command only accepts a task ID");
+                Console.WriteLine("Usage: delete <task_id>");
                 return 1;
             }
 
