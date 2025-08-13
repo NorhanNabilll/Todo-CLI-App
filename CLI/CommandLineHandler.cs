@@ -16,7 +16,33 @@ namespace Todo_CLI_App.CLI
         {
             _todoManager = todoManager;
         }
+ 
+        // Processes command line arguments and executes actions
+        public async Task<int> HandleCommandAsync(string[] args)
+        {
+            try
+            {
+                if (args.Length == 0)
+                {
+                    
+                    return 0;
+                }
 
+                var command = args[0].ToLower();
+
+                return command switch
+                {
+                    "add" => await HandleAddCommand(args),
+                    "list" => HandleListCommand(args),
+
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return 1;
+            }
+        }
 
         // Handles the 'add' command with priority and tags support
         public async Task<int> HandleAddCommand(string[] args)
@@ -54,5 +80,55 @@ namespace Todo_CLI_App.CLI
             Console.WriteLine($"Added task #{item.Id}: {item.Description}");
             return 0;
         }
+
+
+        /// Handles the 'list' command with filtering options
+        public int HandleListCommand(string[] args)
+        {
+            bool? completedFilter = null;
+            string? tagFilter = null;
+
+            // Parse optional arguments
+            for (int i = 1; i < args.Length; i++)
+            {
+                if (args[i] == "--pending")
+                {
+                    completedFilter = false;
+                }
+                else if (args[i] == "--completed")
+                {
+                    completedFilter = true;
+                }
+                else if (args[i] == "--tag" && i + 1 < args.Length)
+                {
+                    tagFilter = args[i + 1];
+                    i++; // Skip the next argument
+                }
+            }
+
+            var items = _todoManager.GetAll(completedFilter, tagFilter);
+
+            if (!items.Any())
+            {
+                if (completedFilter == false)
+                    Console.WriteLine("No pending tasks found");
+                else if (completedFilter == true)
+                    Console.WriteLine("No completed tasks found");
+                else if (!string.IsNullOrWhiteSpace(tagFilter))
+                    Console.WriteLine($"No tasks found with tag '{tagFilter}'");
+                else
+                    Console.WriteLine("No tasks found");
+                return 0;
+            }
+
+            foreach (var item in items)
+            {
+                Console.WriteLine($"{item.Id}. {item}");
+            }
+
+            return 0;
+        }
+
+
     }
 }
