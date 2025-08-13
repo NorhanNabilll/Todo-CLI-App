@@ -35,6 +35,13 @@ namespace Todo_CLI_App.Models
         {
             Tags = new List<string>();
         }
+
+        public override string ToString()
+        {
+            var status = IsCompleted ? "[✓]" : "[ ]";
+            var tags = Tags.Any() ? $" (Tags: {string.Join(", ", Tags)})" : "";
+            return $"{status} {Description} [{Priority}] - Created: {CreatedAt:yyyy-MM-dd HH:mm}{tags}";
+        }
     }
 
     // Priority levels for todo items
@@ -44,4 +51,6 @@ namespace Todo_CLI_App.Models
         Medium,
         High
     }
+
+
 }
