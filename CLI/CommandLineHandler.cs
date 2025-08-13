@@ -34,6 +34,7 @@ namespace Todo_CLI_App.CLI
                 {
                     "add" => await HandleAddCommand(args),
                     "list" => HandleListCommand(args),
+                    "done" => await HandleDoneCommand(args),
                     _ => HandleInvalidCommand(command)
 
                 };
@@ -83,7 +84,7 @@ namespace Todo_CLI_App.CLI
         }
 
 
-        /// Handles the 'list' command with filtering options
+        // Handles the 'list' command with filtering options
         public int HandleListCommand(string[] args)
         {
             bool? completedFilter = null;
@@ -129,6 +130,39 @@ namespace Todo_CLI_App.CLI
 
             return 0;
         }
+
+
+
+        // Handles the 'done' command to mark tasks as completed
+        public async Task<int> HandleDoneCommand(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Error: Task ID is required");
+                Console.WriteLine("Usage: done <task_id>");
+                return 1;
+            }
+
+            if (!int.TryParse(args[1], out int id))
+            {
+                Console.WriteLine("Error: Invalid task ID");
+                return 1;
+            }
+
+            var success = await _todoManager.MarkDoneAsync(id);
+            if (success)
+            {
+                Console.WriteLine($"Task #{id} marked as completed");
+                return 0;
+            }
+            else
+            {
+                Console.WriteLine($"Error: Task #{id} not found");
+                return 1;
+            }
+        }
+
+
         private int HandleInvalidCommand(string command)
         {
             Console.WriteLine($"Error: Unknown command '{command}'");

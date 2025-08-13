@@ -13,7 +13,7 @@
   {
     "Id": 2,
     "Description": "norhanxxxxxxxxxxxx nabil ali",
-    "IsCompleted": false,
+    "IsCompleted": true,
     "CreatedAt": "2025-08-13T14:06:20.8903088Z",
     "Priority": "Medium",
     "Tags": [
